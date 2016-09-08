@@ -18,6 +18,6 @@
     "pug": "^2.0.0-beta6"
   },
   "scripts":{
-    "start": "node node server.js"
+    "start": "node server.js"
   }
 }
