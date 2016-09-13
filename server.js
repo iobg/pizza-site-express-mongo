@@ -3,8 +3,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { cyan, red } = require('chalk')
+const {connect}=require('./database')
 
-const routes = require('./routes/') // same as ./routes/index.js
+
+
+const routes = require('./routes/')// same as ./routes/index.js
 
 const app = express()
 
@@ -19,7 +22,7 @@ if (process.env.NODE_ENV !== 'production') {
   // app.locals.pretty = true
 }
 
-app.locals.company = '🍕 Pizza de Scott'
+app.locals.company = '🍕 Tha pizzaz'
 
 // middlewares
 app.use(({ method, url, headers: { 'user-agent': agent } }, res, next) => {
@@ -51,6 +54,7 @@ app.use((
     const statusCode = res.statusCode
     const statusMessage = res.statusMessage
 
+
     console.error(
       `[${timeStamp}] "${red(`${method} ${url}`)}" Error (${statusCode}): "${statusMessage}"`
     )
@@ -59,6 +63,11 @@ app.use((
 )
 
 // Listen to requests on the provided port and log when available
-app.listen(port, () =>
-  console.log(`Listening on port: ${port}`)
+connect().then(()=>{
+  app.listen(port, () =>{
+     console.log(`Listening on port: ${port}`)
+  }
+
 )
+}).catch(console.error)
+
