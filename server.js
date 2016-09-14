@@ -4,9 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { cyan, red } = require('chalk')
 const {connect}=require('./database')
-
-
-
+ 
 const routes = require('./routes/')// same as ./routes/index.js
 
 const app = express()
@@ -49,12 +47,9 @@ app.use((
     next
   ) => {
     res.sendStatus(err.status || 500)
-
     const timeStamp = new Date()
     const statusCode = res.statusCode
     const statusMessage = res.statusMessage
-
-
     console.error(
       `[${timeStamp}] "${red(`${method} ${url}`)}" Error (${statusCode}): "${statusMessage}"`
     )

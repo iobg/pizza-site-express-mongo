@@ -1,0 +1,30 @@
+extends layout.pug
+
+block content
+  .heading.desc
+    h1 Order
+  .contact-form
+    form(method='POST')
+      .form-group
+        label(for='name') Name
+        input.form-control#name(type='text' placeholder='John Doe' name='name')
+      .form-group
+        label(for='email') Email Address
+        input.form-control#email(type='email', placeholder='you@example.com' name='email')
+      .form-group
+        label(for='phone') Phone Number
+        input.form-control#phone(type='tel', placeholder='234-567-8901' name='phone')
+      .form-group
+        label(for="size") Size
+        select.form-control#size(name="size")
+          option(selected disabled)
+          option(value='10') small 10"
+          option(value='12') medium 12"
+          option(value='14') large 14"
+          option(value='1776') 'Murica 1776"
+
+        
+      .contact-form__submit
+        a.btn.btn-danger.btn-lg(href='/') Cancel
+        input.btn.btn-success.btn-lg(type='submit' value='Submit')
+
