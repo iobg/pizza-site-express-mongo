@@ -1,8 +1,9 @@
 "use strict"
 const mongoose = require('mongoose')
 module.exports= mongoose.model('Order',{
-	name:String,
-	email:String,
-	phone:String,
-	size:Number
+	name:{type:String,required:true},
+	email:{type:String,required:true},
+	phone:{type:String,required:true},
+	size:{type:Number,required:true},
+	toppings:{type:[String],default:["Cheese"]}
 })

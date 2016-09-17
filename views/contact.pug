@@ -2,8 +2,8 @@ extends layout.pug
 
 block content
   .heading
-    h1 Order
-  .order-form
+    h1 Contact Us
+  .contact-form
     form(method='POST')
       .form-group
         label(for='name') Name
@@ -15,17 +15,8 @@ block content
         label(for='phone') Phone Number
         input.form-control#phone(type='tel' name='phone' placeholder='234-567-8901')
       .form-group
-        label(for='size') Size
-        select.form-control#size(name='size')
-          option Select a size:
-          each size in sizes
-           option(value=size.inches) #{size.name}: #{size.inches}"
-      .form-group
-        label(for='toppings') Toppings
-        select.form-control#toppings(name='toppings')
-          option Select a topping:
-          each topping in toppings
-           option(value=topping.name) #{topping.name}: $#{topping.price}
-      .order-form__submit
+        label(for='message') Message
+        textarea.form-control#message(name='message' rows=5 placeholder='What\'s the secret ingredient?')
+      .contact-form__submit
         a.btn.btn-danger.btn-lg(href='/') Cancel
         input.btn.btn-success.btn-lg(type='submit' value='Submit')

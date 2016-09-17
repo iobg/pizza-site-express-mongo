@@ -1,33 +1,48 @@
 'use strict'
-const {Router}=require('express')
-const app=Router();
+
+const { Router } = require('express')
+const router = Router()
+
 const Contact = require('../models/contact')
 const Order = require('../models/order')
-app.get('/', (req, res) =>
+const Size = require('../models/size')
+const Toppings = require('../models/toppings')
+
+router.get('/', (req, res) =>
   res.render('index')
 )
 
-app.get('/about', (req, res) =>
+router.get('/about', (req, res) =>
   res.render('about', { page: 'About' })
 )
 
-app.get('/form', (req, res) =>
-  res.render('form', { page: 'Contact' })
+router.get('/contact', (req, res) =>
+  res.render('contact', { page: 'Contact' })
 )
 
-app.get('/order',(req,res)=>{
-	res.render('order', { page:'Order'})
-})
-app.post('/order',(req,res)=>{
-	const msg = new Order(req.body)
-	msg.save()
- res.redirect('/')
+router.post('/contact', (req, res, err) =>
+  Contact
+    .create(req.body)
+    .then(() => res.redirect('/'))
+    .catch(err)
+)
+
+router.get('/order', (req, res) =>{
+  Size.find({})
+  .sort({inches:1})
+  .then(sizes=>
+  Toppings.find({})
+  .then(toppings=>{res.render('order',{page:"order", sizes, toppings})
+}))
 })
 
-app.post('/form',(req,res)=>{
-	const msg = new Contact(req.body)
-	msg.save()
- res.redirect('/')
-})
 
-module.exports=app
+router.post('/order', (req, res, err) =>
+  Order
+    .create(req.body)
+    .then(() => res.redirect('/'))
+    .catch(err)
+)
+
+module.exports = router
+
