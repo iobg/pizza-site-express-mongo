@@ -6,7 +6,8 @@ module.exports=mongoose.model('User',{
 	email:{
 		type:String,
 		lowercase:true,
-		required:true,
+		required:true,	
+		index:{unique:true}
 	},
 	password:{
 		type:String,

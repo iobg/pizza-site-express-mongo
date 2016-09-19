@@ -2,6 +2,7 @@
 
 const { Router } = require('express')
 const router = Router()
+const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const Contact = require('../models/contact')
 const Order = require('../models/order')
@@ -15,16 +16,16 @@ router.get('/login', (req, res) =>
   res.render('login')
 )
 router.post('/login',(req,res)=>{
-  User.find("email")
-  .then(data=>Object.keys(data).
-    forEach(user=>{
-      if(data[user].email === req.body.email && data[user].password===req.body.password){
-        res.redirect('/')
-      }
-      else res.render('login', {error:'Email and password do not match'})
-
-    }))
-  
+  let{email,password}=req.body
+  User.findOne({email})
+  .then(user=>{
+    if(user){
+      bcrypt.compare(password,user.password,(err,matches)=>{
+        if(matches) res.render('login',{error:"Successfully logged in"})
+        else res.render('login', {error:'Email and password do not match'})
+    })
+  }
+})
 })
     
 router.get('/register',(req,res)=>{
@@ -32,16 +33,23 @@ router.get('/register',(req,res)=>{
 })
 router.post('/register',(req,res)=>{
   if(req.body.password===req.body.passwordConfirm){
-    User.create({email:req.body.email,password:req.body.password})
-    .then(res.redirect('/'))
-    .catch(err)
-  }
-  else{
-    res.render('register', {error:'Please confirm your password'})
+    User.findOne({email:req.body.email})
+    .then(user=>{
+      if(user){
+        res.render('register',{error:"Email is already registered"})
+      }
+       else{
+        return new Promise((resolve,reject)=>{
+          bcrypt.hash(req.body.password,13,(err,hash)=>{
+          User.create({email:req.body.email,password:hash})
+          resolve(hash)
+         })
+      }).then(res.render('register',{error:"Successfully registered"}))
+    }
+  })
   }
 })
-
-
+  
 router.get('/about', (req, res) =>
   res.render('about', { page: 'About' })
 )
@@ -57,7 +65,6 @@ router.post('/contact', (req, res, err) =>
     .catch(err)
 )
 
-
 router.get('/order', (req, res) =>{
   Size.find({})
   .sort({inches:1})
@@ -66,7 +73,6 @@ router.get('/order', (req, res) =>{
   .then(toppings=>{res.render('order',{page:"order", sizes, toppings})
 }))
 })
-
 
 router.post('/order', (req, res, err) =>
   Order
