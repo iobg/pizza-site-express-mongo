@@ -4,6 +4,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { cyan, red } = require('chalk')
 const {connect}=require('./database')
+const session = require('express-session')
+const RedisStore=require('connect-redis')(session)
  
 const routes = require('./routes/')// same as ./routes/index.js
 
@@ -22,15 +24,24 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.locals.company = '🍕 Tha pizzaz'
 
+
 // middlewares
 app.use(({ method, url, headers: { 'user-agent': agent } }, res, next) => {
   const timeStamp = new Date()
   console.log(`[${timeStamp}] "${cyan(`${method} ${url}`)}" "${agent}"`)
   next()
 })
-
+app.use(session({
+  store:new RedisStore(),
+  secret:'heyitsmeurbrother'
+}))
+app.use((req,res,next)=>{
+    app.locals.email=req.session.email
+    next()
+})
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
+
 
 app.use(routes)
 

@@ -15,6 +15,12 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             a(href='/about') About
           li(class={active: title==="Contact"})
             a(href='/contact') Contact
-          li(class={active: title==="Login"})
-            a(href='/login') Login
+          if email
+            li Logged in as #{email}
+          else
+            li(class={active: title==="Login"})
+              a(href='/login') Login
+            li(class={active: title==="Login"})
+              a(href='/register') Register
+
 

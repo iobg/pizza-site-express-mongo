@@ -21,7 +21,10 @@ router.post('/login',(req,res)=>{
   .then(user=>{
     if(user){
       bcrypt.compare(password,user.password,(err,matches)=>{
-        if(matches) res.render('login',{error:"Successfully logged in"})
+        if(matches){
+              req.session.email=email   
+              res.render('login',{error:"Successfully logged in"})
+            } 
         else res.render('login', {error:'Email and password do not match'})
     })
   }
