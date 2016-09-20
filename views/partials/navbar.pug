@@ -16,7 +16,8 @@ nav.navbar.navbar-inverse.navbar-fixed-top
           li(class={active: title==="Contact"})
             a(href='/contact') Contact
           if email
-            li Logged in as #{email}
+            li Logged in as 
+              a(href="/logout") #{email}
           else
             li(class={active: title==="Login"})
               a(href='/login') Login
