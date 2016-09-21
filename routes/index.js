@@ -9,9 +9,9 @@ router.get('/', (req, res) =>
 )
 
 router.use(require('./about'))
+router.use(require('./contact'))
 router.use(require('./login'))
 router.use(require('./register'))
-router.use(require('./contact'))
 
 //guard middleware
 router.use((req,res,next)=>{
@@ -23,7 +23,6 @@ router.use((req,res,next)=>{
 
 router.use(require('./logout'))
 router.use(require('./order'))
-
 
 
 module.exports = router
