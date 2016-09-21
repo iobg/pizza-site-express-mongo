@@ -1,15 +1,11 @@
+'use strict'
 let {Router}=require('express')
 const router = Router()
+let{post,index}= require('../controllers/logout')
 
-router.post('/logout',(req,res)=>{
-  req.session.destroy((err)=>{
-    if(err) throw(err)
-      res.redirect('/login')
-  })
+router.post('/logout',post)
 
-})
-router.get('/logout',(req,res)=>{
-  res.render('logout')
-})
+
+router.get('/logout',index)
 
 module.exports=router
