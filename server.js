@@ -32,7 +32,7 @@ app.use(({ method, url, headers: { 'user-agent': agent } }, res, next) => {
   next()
 })
 app.use(session({
-  store:new RedisStore(),
+  store:new RedisStore(), ///enter heroku redis key here
   secret:'heyitsmeurbrother'
 }))
 app.use((req,res,next)=>{
