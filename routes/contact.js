@@ -2,18 +2,12 @@
 
 const {Router}=require('express')
 const Contact = require('../models/contact')
-
 const router =Router();
 
-router.get('/contact', (req, res) =>
-  res.render('contact', { page: 'Contact' })
-)
+let {index,post}=require('../controllers/contact')
 
-router.post('/contact', (req, res, err) =>
-  Contact
-    .create(req.body)
-    .then(() => res.redirect('/'))
-    .catch(err)
-)
+router.get('/contact',index)
+
+router.post('/contact',post)
 
 module.exports=router
